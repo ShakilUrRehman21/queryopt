@@ -72,6 +72,9 @@ where = ["packages"]
 [tool.setuptools.package-dir]
 "" = "packages"
 
+[tool.vercel]
+entrypoint = "apps.api.main:app"
+
 # ── Ruff (linting + formatting) ──────────────────────────────────────────────
 [tool.ruff]
 target-version = "py312"

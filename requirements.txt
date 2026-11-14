@@ -1,2 +1,10 @@
-# Vercel installs the project (packages/*) plus the API extras from pyproject.toml
-.[api]
+fastapi>=0.115.0
+uvicorn[standard]>=0.31.0
+httpx>=0.27.0
+sqlglot>=25.0.0
+pydantic>=2.8.0
+pyyaml>=6.0.2
+click>=8.1.7
+rich>=13.9.0
+numpy>=2.1.0
+duckdb>=1.1.0
