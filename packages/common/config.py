@@ -100,8 +100,8 @@ class QueryOptConfig:
             debug=_bool_env("QUERYOPT_DEBUG", environment == Environment.DEVELOPMENT),
             version=os.environ.get("QUERYOPT_VERSION", "0.2.0"),
 
-            data_dir=os.environ.get("DATA_DIR", "./data"),
-            results_dir=os.environ.get("RESULTS_DIR", "./experiments/results"),
+            data_dir=os.environ.get("DATA_DIR", "/tmp/data" if (os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")) else "./data"),
+            results_dir=os.environ.get("RESULTS_DIR", "/tmp/results" if (os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")) else "./experiments/results"),
             max_data_dir_size_mb=_int_env("MAX_DATA_DIR_SIZE_MB", 500),
 
             limits=ResourceLimits(
