@@ -115,6 +115,7 @@ mypy_path = "packages"
 # ── pytest ───────────────────────────────────────────────────────────────────
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = [".", "packages"]
 asyncio_mode = "auto"
 addopts = [
     "--tb=short",
