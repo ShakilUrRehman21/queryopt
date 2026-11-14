@@ -1,0 +1,28 @@
+experiment:
+  name: "rq4_adaptive_feedback"
+  description: >
+    RQ4: between-query feedback. With warmup disabled and feedback isolated per
+    (query, optimizer), repetition 1 of the adaptive optimizer is a cold start and
+    later repetitions reuse observed cardinalities. Compare the per-repetition
+    q-error in raw_metrics.csv with the static cost-based optimizer.
+  tags: [rq4, adaptive, feedback, learning_curve]
+
+dataset:
+  name: "rq4_dataset"
+  workload_id: "W9"
+  scale: 2
+  seed: 404
+
+optimizers:
+  - id: cost_based
+  - id: adaptive
+
+execution:
+  repetitions: 5
+  warmup_runs: 0
+  feedback: isolated
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  overwrite: true

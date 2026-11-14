@@ -1,0 +1,35 @@
+experiment:
+  name: "rq1_cost_vs_rule_workloads"
+  description: "RQ1: Empirical comparison of cost-based vs rule-based optimization on multi-table asymmetric joins"
+  tags: [rq1, cost_based, rule_based, naive, join_reordering]
+
+dataset:
+  name: "rq1_dataset"
+  workload_id: "W3"
+  scale: 1
+  seed: 101
+
+optimizers:
+  - id: naive
+  - id: rule_based
+  - id: cost_based
+
+queries:
+  - id: Q1_3table_asymmetric_join
+    sql: "SELECT customers.name, orders.amount, lineitem.quantity FROM customers JOIN orders ON customers.id = orders.customer_id JOIN lineitem ON orders.id = lineitem.order_id WHERE customers.id <= 5"
+    description: "Multi-table join with selective customer filter"
+  - id: Q2_orders_lineitem_join
+    sql: "SELECT orders.id, orders.amount, lineitem.quantity, lineitem.discount FROM orders JOIN lineitem ON orders.id = lineitem.order_id WHERE orders.amount > 250"
+    description: "Two-table join with order amount filter"
+
+execution:
+  repetitions: 5
+  warmup_runs: 1
+  timeout_seconds: 30.0
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  save_raw: true
+  save_summary: true
+  overwrite: true

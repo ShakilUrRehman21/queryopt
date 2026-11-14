@@ -1,0 +1,48 @@
+experiment:
+  name: "rq5_llm_join_ordering"
+  description: >
+    RQ5: do LLM join-order recommendations match what the engine measures? The
+    llm_guided optimizer differs from cost_based only in who picks the join order.
+    Each run records the model's order, its rationale, and its estimated-cost ratio
+    against the DP optimum (metadata). Without a configured model the optimizer
+    runs its labelled offline stand-in (Greedy Operator Ordering).
+    Set ANTHROPIC_API_KEY or QUERYOPT_LLM_BASE_URL before running for real LLM data.
+  tags: [rq5, llm, join_ordering]
+
+dataset:
+  name: "rq5_dataset"
+  workload_id: "W9"
+  scale: 2
+  seed: 505
+
+optimizers:
+  - id: cost_based
+  - id: llm_guided
+
+queries:
+  - id: Q1_correlated_3way
+    sql: >
+      SELECT zones.name, alerts.severity FROM alerts
+      JOIN sensors ON alerts.sensor_id = sensors.id
+      JOIN zones ON sensors.zone_id = zones.id
+      WHERE sensors.temperature > 80 AND sensors.humidity > 80
+  - id: Q2_contradictory_3way
+    sql: >
+      SELECT zones.name, sensors.temperature FROM sensors
+      JOIN zones ON sensors.zone_id = zones.id
+      JOIN alerts ON alerts.sensor_id = sensors.id
+      WHERE sensors.temperature > 90 AND sensors.humidity < 10 AND alerts.severity >= 4
+  - id: Q3_unfiltered_3way
+    sql: >
+      SELECT zones.floor, alerts.severity FROM zones
+      JOIN sensors ON sensors.zone_id = zones.id
+      JOIN alerts ON alerts.sensor_id = sensors.id
+
+execution:
+  repetitions: 3
+  warmup_runs: 1
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  overwrite: true

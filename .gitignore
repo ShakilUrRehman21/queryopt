@@ -1,0 +1,81 @@
+# QueryOpt Lab .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+pip-wheel-metadata/
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.hypothesis/
+
+# Type checking
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Environment
+.env
+.env.local
+.env.production
+# Keep the example
+!.env.example
+
+# Data files (large datasets should not be committed)
+datasets/synthetic/*.json
+datasets/synthetic/*.csv
+datasets/synthetic/*.parquet
+datasets/benchmark/*.json
+datasets/benchmark/*.csv
+
+# Experiment results (can be large; use export/download instead)
+experiments/results/
+# Keep configs and analysis notebooks
+!experiments/configs/**
+!experiments/analysis/**
+
+# Database files (generated at runtime)
+data/
+*.db
+*.sqlite
+
+# Frontend
+apps/web/node_modules/
+apps/web/dist/
+apps/web/.vite/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Documentation build artifacts
+docs/_build/
+site/
+
+# Paper (not committed until ready)
+paper/*.pdf
+paper/*.aux
+paper/*.log
+
+# Jupyter
+.ipynb_checkpoints/

@@ -1,0 +1,22 @@
+{
+  "name": "queryopt-lab-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QueryOpt Lab — Relational Query Optimization Research Platform",
+  "scripts": {
+    "dev": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build",
+    "preview": "npm --prefix apps/web run preview",
+    "api": "py -m uvicorn apps.api.main:app --port 8000 --reload",
+    "start": "npm run dev"
+  },
+  "keywords": [
+    "database",
+    "query-optimizer",
+    "cost-based-optimizer",
+    "volcano-executor",
+    "dag-visualizer"
+  ],
+  "author": "QueryOpt Lab Team",
+  "license": "Apache-2.0"
+}

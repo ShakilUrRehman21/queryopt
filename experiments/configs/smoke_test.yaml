@@ -1,0 +1,35 @@
+experiment:
+  name: "smoke_test_cbo_vs_rule"
+  description: "Smoke test comparing naive, rule-based, and cost-based optimizers"
+  tags: [smoke_test, naive, rule_based, cost_based]
+
+dataset:
+  name: "standard_benchmark"
+  workload_id: "W3"
+  scale: 1
+  seed: 42
+
+optimizers:
+  - id: naive
+  - id: rule_based
+  - id: cost_based
+
+queries:
+  - id: Q1_filter
+    sql: "SELECT id, amount FROM orders WHERE amount > 250"
+    description: "Simple range filter"
+  - id: Q2_join
+    sql: "SELECT customers.name, orders.amount FROM customers JOIN orders ON customers.id = orders.customer_id"
+    description: "Two-table equi-join"
+
+execution:
+  repetitions: 3
+  warmup_runs: 1
+  timeout_seconds: 15.0
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  save_raw: true
+  save_summary: true
+  overwrite: true

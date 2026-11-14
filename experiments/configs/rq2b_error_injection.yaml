@@ -1,0 +1,47 @@
+experiment:
+  name: "rq2b_error_injection"
+  description: >
+    RQ2 (controlled): inject a known cardinality q-error into the CBO and measure
+    when plan choice and runtime start to degrade. Estimation error becomes the
+    independent variable instead of a post-hoc observation (Research Gap 4).
+  tags: [rq2, error_injection, cardinality_estimation, ablation]
+
+dataset:
+  name: "rq2b_dataset"
+  workload_id: "W3"
+  scale: 4
+  seed: 202
+
+optimizers:
+  - id: "cost_based"
+  - id: "cost_based[qerr=3,mode=random,seed=1]"
+  - id: "cost_based[qerr=10,mode=random,seed=1]"
+  - id: "cost_based[qerr=100,mode=random,seed=1]"
+  - id: "cost_based[qerr=10,mode=under]"
+  - id: "cost_based[qerr=10,mode=over]"
+
+queries:
+  - id: Q1_three_way_join
+    sql: >
+      SELECT customers.name, lineitem.quantity FROM lineitem
+      JOIN orders ON lineitem.order_id = orders.id
+      JOIN customers ON orders.customer_id = customers.id
+      WHERE customers.credit_rating > 700
+    description: "3-way join whose best order depends on the customer filter estimate"
+  - id: Q2_four_way_join
+    sql: >
+      SELECT customers.region, products.category, lineitem.quantity FROM lineitem
+      JOIN orders ON lineitem.order_id = orders.id
+      JOIN customers ON orders.customer_id = customers.id
+      JOIN products ON lineitem.product_id = products.id
+      WHERE orders.amount > 400 AND products.price < 50
+    description: "4-way join with two independent filters"
+
+execution:
+  repetitions: 5
+  warmup_runs: 1
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  overwrite: true

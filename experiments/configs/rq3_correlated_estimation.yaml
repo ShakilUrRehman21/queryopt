@@ -1,0 +1,26 @@
+experiment:
+  name: "rq3_correlated_estimation"
+  description: >
+    RQ3: how far does the attribute-independence assumption mislead the optimizer on
+    correlated data, and how much does a self-supervised learned estimator recover?
+    Same engine and cost model; only the cardinality estimator differs.
+  tags: [rq3, correlation, learned_estimator, q_error]
+
+dataset:
+  name: "rq3_dataset"
+  workload_id: "W8"
+  scale: 1
+  seed: 303
+
+optimizers:
+  - id: cost_based   # equi-depth histograms + independence
+  - id: learned      # per-table MLP over whole conjunctions
+
+execution:
+  repetitions: 5
+  warmup_runs: 1
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  overwrite: true

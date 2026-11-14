@@ -1,0 +1,35 @@
+experiment:
+  name: "rq2_cardinality_error_sensitivity"
+  description: "RQ2: Empirical evaluation of cardinality estimation accuracy (Q-error) on skewed Zipfian data"
+  tags: [rq2, cardinality_estimation, q_error, skew, zipfian]
+
+dataset:
+  name: "rq2_dataset"
+  workload_id: "W5"
+  scale: 1
+  seed: 202
+
+optimizers:
+  - id: naive
+  - id: rule_based
+  - id: cost_based
+
+queries:
+  - id: Q1_skewed_dense_head
+    sql: "SELECT id, customer_id, amount FROM skewed_orders WHERE customer_id <= 3"
+    description: "Range filter over dense Zipfian head"
+  - id: Q2_skewed_sparse_tail
+    sql: "SELECT id, customer_id, amount FROM skewed_orders WHERE customer_id >= 25"
+    description: "Range filter over sparse Zipfian tail"
+
+execution:
+  repetitions: 5
+  warmup_runs: 1
+  timeout_seconds: 30.0
+
+result_storage:
+  directory: "experiments/results/"
+  formats: [json, csv]
+  save_raw: true
+  save_summary: true
+  overwrite: true
