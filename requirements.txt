@@ -1,0 +1,2 @@
+# Vercel installs the project (packages/*) plus the API extras from pyproject.toml
+.[api]

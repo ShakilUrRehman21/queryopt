@@ -59,7 +59,7 @@ export const Optimizer: React.FC = () => {
       if (!r.ok) throw new Error(r.statusText);
       setRes(await r.json()); setShowOriginal(false);
     } catch {
-      setNetError('Could not reach the optimizer. Is the backend running on port 8000?');
+      setNetError('Could not reach the optimizer API. Check that the backend is running.');
     } finally { setBusy(false); }
   };
 
